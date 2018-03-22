@@ -1,6 +1,6 @@
 # LameProxy
 
-**LameProxy** is a command line applcation which can  creating a **SOCKS5** server easily. It's powered by [sockslib](https://github.com/fengyouchao/sockslib)
+**LameProxy** is a pure-java command line applcation which can creating a **SOCKS5** server easily. It's powered by [sockslib](https://github.com/fengyouchao/sockslib)
 
 # REQUIRE
 
