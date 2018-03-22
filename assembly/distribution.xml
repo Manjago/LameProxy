@@ -30,6 +30,7 @@
             <includes>
                 <include>**/*.bat</include>
                 <include>**/logback.xml</include>
+                <include>**/*.jks</include>
             </includes>
             <outputDirectory>/</outputDirectory>
         </fileSet>
