@@ -6,6 +6,10 @@
 
 **LameProxy** requres JRE 8+
 
+# DOWNLOAD
+
+You can download **LameProxy** at [Release Page](https://github.com/Manjago/LameProxy/releases)
+
 # HOW TO USE
 Edit and run command-file proxy-cmd.bat, nohup-proxy-cmd.sh or proxy-cmd.sh.  Change parameters -port, puser, -pwd
 
