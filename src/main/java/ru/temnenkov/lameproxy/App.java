@@ -6,8 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import sockslib.common.KeyStoreInfo;
 import sockslib.common.SSLConfiguration;
 import sockslib.common.methods.UsernamePasswordMethod;
+import sockslib.server.BasicSessionManager;
 import sockslib.server.SocksProxyServer;
 import sockslib.server.SocksServerBuilder;
+import sockslib.server.listener.LoggingListener;
 import sockslib.server.manager.MemoryBasedUserManager;
 
 import java.io.IOException;
@@ -33,9 +35,16 @@ public class App {
     private void process(AppParams pars) {
         final MemoryBasedUserManager userManager = new MemoryBasedUserManager();
 
-        userManager.addUser(pars.getUser(), pars.getPwd());
+        String[] users = pars.getUser().split(":");
+        String[] pwds = pars.getPwd().split(":");
+        for(int i=0; i < users.length; ++i) {
+            userManager.addUser(users[i], pwds[i]);
+        }
 
         SocksProxyServer server;
+
+        final BasicSessionManager sessionManager = new BasicSessionManager();
+        sessionManager.addSessionListener("trace", new LoggingListener());
 
         if (pars.isSsl()) {
 
@@ -44,6 +53,7 @@ public class App {
 
             server = SocksServerBuilder.newSocks5ServerBuilder()
                     .setBindPort(pars.getPort())
+                    .setSessionManager(sessionManager)
                     .useSSL(ssl)
                     .setUserManager(userManager).setSocksMethods
                             (new UsernamePasswordMethod()).build();
@@ -51,10 +61,16 @@ public class App {
         } else {
             server = SocksServerBuilder.newSocks5ServerBuilder()
                     .setBindPort(pars.getPort())
+                    .setSessionManager(sessionManager)
                     .setUserManager(userManager).setSocksMethods
                             (new UsernamePasswordMethod()).build();
         }
 
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            server.shutdown();
+            log.info("SOCKS5 sever shutdown");
+        }));
 
         try {
             server.start();
@@ -62,4 +78,5 @@ public class App {
             log.error("fail start proxy", e);
         }
     }
+
 }
