@@ -7,6 +7,7 @@ import sockslib.common.KeyStoreInfo;
 import sockslib.common.SSLConfiguration;
 import sockslib.common.methods.UsernamePasswordMethod;
 import sockslib.server.BasicSessionManager;
+import sockslib.server.SessionManager;
 import sockslib.server.SocksProxyServer;
 import sockslib.server.SocksServerBuilder;
 import sockslib.server.listener.LoggingListener;
@@ -43,7 +44,7 @@ public class App {
 
         SocksProxyServer server;
 
-        final BasicSessionManager sessionManager = new BasicSessionManager();
+        final SessionManager sessionManager = new CustomSessionManager();
         sessionManager.addSessionListener("trace", new LoggingListener());
 
         if (pars.isSsl()) {
