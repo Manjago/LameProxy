@@ -11,7 +11,7 @@ import sockslib.server.listener.SessionListener;
 import sockslib.server.msg.CommandMessage;
 
 @Slf4j
-public class TraceListener implements SessionListener {
+public class TraceAndCleanListener implements SessionListener {
 
 
   @Override

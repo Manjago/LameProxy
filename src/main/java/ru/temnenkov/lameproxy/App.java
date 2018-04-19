@@ -6,11 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import sockslib.common.KeyStoreInfo;
 import sockslib.common.SSLConfiguration;
 import sockslib.common.methods.UsernamePasswordMethod;
-import sockslib.server.BasicSessionManager;
 import sockslib.server.SessionManager;
 import sockslib.server.SocksProxyServer;
 import sockslib.server.SocksServerBuilder;
-import sockslib.server.listener.LoggingListener;
 import sockslib.server.manager.MemoryBasedUserManager;
 
 import java.io.IOException;
@@ -45,7 +43,7 @@ public class App {
         SocksProxyServer server;
 
         final SessionManager sessionManager = new CustomSessionManager();
-        sessionManager.addSessionListener("trace", new LoggingListener());
+        sessionManager.addSessionListener("trace", new TraceAndCleanListener());
 
         if (pars.isSsl()) {
 
