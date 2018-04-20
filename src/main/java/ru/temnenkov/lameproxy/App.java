@@ -45,25 +45,11 @@ public class App {
         final SessionManager sessionManager = new CustomSessionManager();
         sessionManager.addSessionListener("trace", new TraceAndCleanListener());
 
-        if (pars.isSsl()) {
-
-            final KeyStoreInfo keyStoreInfo = new KeyStoreInfo(pars.getKeyStorePath(), pars.getKeyStorePwd());
-            SSLConfiguration ssl = new SSLConfiguration(keyStoreInfo, keyStoreInfo);
-
-            server = SocksServerBuilder.newSocks5ServerBuilder()
-                    .setBindPort(pars.getPort())
-                    .setSessionManager(sessionManager)
-                    .useSSL(ssl)
-                    .setUserManager(userManager).setSocksMethods
-                            (new UsernamePasswordMethod()).build();
-
-        } else {
             server = SocksServerBuilder.newSocks5ServerBuilder()
                     .setBindPort(pars.getPort())
                     .setSessionManager(sessionManager)
                     .setUserManager(userManager).setSocksMethods
                             (new UsernamePasswordMethod()).build();
-        }
 
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
