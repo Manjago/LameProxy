@@ -29,8 +29,8 @@
             <filtered>true</filtered>
             <includes>
                 <include>**/*.bat</include>
+                <include>**/*.txt</include>
                 <include>**/logback.xml</include>
-                <include>**/*.jks</include>
             </includes>
             <outputDirectory>/</outputDirectory>
         </fileSet>

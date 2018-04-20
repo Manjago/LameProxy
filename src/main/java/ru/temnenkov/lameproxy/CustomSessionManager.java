@@ -8,7 +8,6 @@ import sockslib.server.listener.*;
 import sockslib.server.msg.CommandMessage;
 
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -17,11 +16,11 @@ import java.util.concurrent.atomic.AtomicLong;
 public class CustomSessionManager implements SessionManager {
 
   private final AtomicLong sessionIdKeeper = new AtomicLong(0);
-  private Map<Long, Session> managedSessions = new ConcurrentHashMap<>();
-  private Map<String, SessionCreateListener> sessionCreateListenerMap = new HashMap<>();
-  private Map<String, SessionCloseListener> sessionCloseListenerMap = new HashMap<>();
-  private Map<String, CommandListener> commandListenerMap = new HashMap<>();
-  private Map<String, ExceptionListener> exceptionListenerMap = new HashMap<>();
+  private Map<Long, Session> managedSessions = new ManagedSessionsMap();
+  private Map<String, SessionCreateListener> sessionCreateListenerMap = new ConcurrentHashMap<>();
+  private Map<String, SessionCloseListener> sessionCloseListenerMap = new ConcurrentHashMap<>();
+  private Map<String, CommandListener> commandListenerMap = new ConcurrentHashMap<>();
+  private Map<String, ExceptionListener> exceptionListenerMap = new ConcurrentHashMap<>();
 
   @Override
   public Session newSession(Socket socket) {

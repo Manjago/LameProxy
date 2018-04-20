@@ -3,13 +3,12 @@ package ru.temnenkov.lameproxy;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import lombok.extern.slf4j.Slf4j;
-import sockslib.common.KeyStoreInfo;
-import sockslib.common.SSLConfiguration;
 import sockslib.common.methods.UsernamePasswordMethod;
 import sockslib.server.SessionManager;
 import sockslib.server.SocksProxyServer;
 import sockslib.server.SocksServerBuilder;
-import sockslib.server.manager.MemoryBasedUserManager;
+import sockslib.server.manager.FileBasedUserManager;
+import sockslib.server.manager.UserManager;
 
 import java.io.IOException;
 
@@ -32,18 +31,18 @@ public class App {
     }
 
     private void process(AppParams pars) {
-        final MemoryBasedUserManager userManager = new MemoryBasedUserManager();
 
-        String[] users = pars.getUser().split(":");
-        String[] pwds = pars.getPwd().split(":");
-        for(int i=0; i < users.length; ++i) {
-            userManager.addUser(users[i], pwds[i]);
+        UserManager userManager;
+        try {
+            userManager = new FileBasedUserManager(pars.getUsers(), true, 60000L);
+        } catch (IOException e) {
+            log.error("problem with users definition - wrong file path {}?", pars.getUsers(), e);
+            return;
         }
-
         SocksProxyServer server;
 
         final SessionManager sessionManager = new CustomSessionManager();
-        sessionManager.addSessionListener("trace", new TraceAndCleanListener());
+        sessionManager.addSessionListener("trace", new TraceListener());
 
             server = SocksServerBuilder.newSocks5ServerBuilder()
                     .setBindPort(pars.getPort())

@@ -13,16 +13,13 @@ You can download **LameProxy** at [Release Page](https://github.com/Manjago/Lame
 # HOW TO USE
 Edit and run command-file proxy-*.bat or proxy-*.sh,  Change parameters -port, puser, -pwd, -keyStorePath, -keyStorePwd
 
-	java -Xmx100m -Dlogback.configurationFile=logback.xml -jar uber-lameproxy-1.0.jar -port 8181 -user test -pwd test
+	java -server -Xmx256m -Dlogback.configurationFile=logback.xml -jar uber-lameproxy-${project.version}.jar -port 8383 -users users.txt
 	
 or	
 
-	java -Xmx100m -Dlogback.configurationFile=logback.xml -jar uber-lameproxy-1.0.jar -port 8181 -user test -pwd test -keyStorePath example.jks -keyStorePwd changeme
+	nohup java -server -Xmx256m -Dlogback.configurationFile=logback.xml -jar uber-lameproxy-${project.version}.jar -port 8383 -users users.txt 1>out 2>err & echo $!>lame-proxy.pid;
 	
 Here are some options:
 
 - -port=[NUMBER]
-- -user=[USERNAME]
-- -pwd=[PASSWORD]
-- -keyStorePath=[PATH TO JKS-STORE]
-- -keyStorePwd=[PWD FOR JKS-STORE]
+- -users=[PATH TO FILE WITH USERS AND PASSWORDS]
