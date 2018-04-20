@@ -30,8 +30,6 @@ public class TraceListener implements SessionListener {
   @Override
   public void onClose(Session session) {
     log.info("SESSION[{}] closed, stat {}", session.getId(), session.getNetworkMonitor());
-    session.getManagedSessions().remove(session.getId());
-    log.debug("managed sessions: {}", session.getManagedSessions().size());
   }
 
   @Override
